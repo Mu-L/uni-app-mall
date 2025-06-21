@@ -2,14 +2,15 @@
 	const WXAUTH = require('@/common/wxauth.js')
 	const TTAUTH = require('@/common/ttauth.js')
 	const QQAUTH = require('@/common/qqauth.js')
+	const ALIAUTH = require('@/common/aliauth.js')
 	export default {
 		globalData: {
 			h5Domain: 'http://tstz.s2m.cc',
 			wxh5autologin: false, // 微信内浏览器打开是否启用微信自动登录
 			goLogin: false,
-			subDomain: 'tz', // jdjf0115
-			merchantId: 951, // 42151
-			version: '2.1.0',
+			subDomain: 'tz',
+			merchantId: 951,
+			version: '25.4.25',
 			sysconfigkeys: 'mallName,shopMod,share_profile,recharge_amount_min,open_growth,shopping_cart_vop_open,needIdCheck',
 			wxpayOpenAppId: 'wx9b04553fd8c7b9c3', // 微信开放平台的移动端应用appID
 			openAlipayProvider: false, // 是否开通支付宝支付
@@ -107,6 +108,16 @@
 			},
 			async autoLogin(force) {
 				// 自动登陆
+				// #ifdef MP-ALIPAY
+				const isLogined = await ALIAUTH.checkHasLogined()
+				if (!isLogined) {
+					await ALIAUTH.authorize()
+					// await ALIAUTH.bindSeller()
+				}
+				setTimeout(() => {
+					uni.$emit('loginOK', {})
+				}, 500)
+				// #endif
 				// #ifdef MP-WEIXIN
 				const isLogined = await WXAUTH.checkHasLogined()
 				if (!isLogined) {

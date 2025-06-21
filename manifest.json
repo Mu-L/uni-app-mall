@@ -142,11 +142,12 @@
                 "desc" : "为你推荐附近的门店"
             }
         },
-		"slotMultipleInstance" : true
+        "slotMultipleInstance" : true
     },
     "mp-alipay" : {
         "usingComponents" : true,
-        "component2" : true
+        "component2" : true,
+        "appid" : "2021003199688515"
     },
     "mp-qq" : {
         "optimization" : {
